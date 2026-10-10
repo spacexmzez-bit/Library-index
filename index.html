@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المكتبة الخشبية التراثية - دليل المجلدات الرقمية</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Cairo & Amiri -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Cairo', 'sans-serif'],
+            serif: ['Amiri', 'serif'],
+          },
+          colors: {
+            wood: {
+              50: '#fcf8f2',
+              100: '#f5ebe0',
+              200: '#edd8c0',
+              300: '#dec09b',
+              400: '#c59a68',
+              500: '#aa7842',
+              600: '#8e5f33',
+              700: '#734a29',
+              800: '#5c3a21',
+              900: '#422816',
+              950: '#2b190d'
+            },
+            parchment: {
+              50: '#fdfbf7',
+              100: '#f9f5ec',
+              200: '#f1e8d4',
+              300: '#e6d6b5',
+              400: '#d7be90',
+              500: '#c5a46d'
+            },
+            brass: {
+              400: '#e5c158',
+              500: '#d4a838',
+              600: '#b28722',
+              700: '#876313'
+            }
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' }
+            }
+          },
+          animation: {
+            marquee: 'marquee 30s linear infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #2b190d;
+      background-image: 
+        radial-gradient(ellipse at top, rgba(142, 95, 51, 0.25), transparent 70%),
+        linear-gradient(to bottom, #382011, #24140a);
+      background-attachment: fixed;
+    }
+    
+    .wood-shelf {
+      background: linear-gradient(180deg, #5c3a21 0%, #422816 70%, #2b190d 100%);
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 8px 18px rgba(0,0,0,0.6);
+      border-top: 3px solid #8e5f33;
+      border-bottom: 4px solid #1a0f07;
+    }
+
+    .wood-panel {
+      background: linear-gradient(145deg, #422816, #321c0d);
+      border: 1px solid #734a29;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.12), 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .brass-plate {
+      background: linear-gradient(135deg, #e5c158 0%, #d4a838 50%, #b28722 100%);
+      color: #2b190d;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.5);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #2b190d;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #734a29;
+      border-radius: 3px;
+    }
+    .marquee-track:hover {
+      animation-play-state: paused;
+    }
+  </style>
+</head>
+<body class="text-parchment-100 font-sans antialiased min-h-screen flex flex-col selection:bg-brass-500 selection:text-wood-950">
+
+  <header class="sticky top-0 z-40 wood-shelf backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-2.5 cursor-pointer" onclick="app.navigate('user')">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl brass-plate flex items-center justify-center border-2 border-brass-600 shrink-0">
+          <i data-lucide="book-open" class="w-5 h-5 sm:w-7 sm:h-7 text-wood-950 stroke-[2.5]"></i>
+        </div>
+        <div class="overflow-hidden">
+          <div class="flex items-center gap-1.5">
+            <h1 class="text-sm sm:text-xl font-black font-serif tracking-wide text-parchment-100 truncate">المكتبة الخشبية التراثية</h1>
+          </div>
+          <p class="text-[10px] sm:text-xs text-parchment-300 font-medium truncate">دليل المجلدات ومسارات Google Drive</p>
+        </div>
+      </div>
+
+      <!-- Header Action Controls -->
+      <div class="flex items-center gap-2">
+        <button id="nav-btn-user" onclick="app.navigate('user')" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1 brass-plate">
+          <i data-lucide="compass" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+          <span class="hidden xs:inline">الرفوف</span>
+        </button>
+
+        <button id="nav-btn-admin" onclick="app.openAdminAuth()" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1 bg-wood-900 hover:bg-wood-800 text-parchment-200 border border-wood-700">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brass-400"></i>
+          <span>الإدارة</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: CLIENT SEARCH ENGINE & DIRECTORY   -->
+    <!-- ========================================== -->
+    <section id="view-user" class="space-y-6 block">
+      
+      <!-- Recommended Books Wooden Banner (Marquee) -->
+      <div id="marquee-container" class="hidden rounded-2xl wood-panel p-3 sm:p-4 overflow-hidden relative border-2 border-wood-600">
+        <div class="flex items-center justify-between mb-2 sm:mb-3 border-b border-wood-700 pb-2">
+          <div class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brass-400 font-serif">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 animate-pulse"></i>
+            <span>مختارات المكتبة المميزة</span>
+          </div>
+          <span class="text-[10px] text-parchment-300">تمرير تلقائي</span>
+        </div>
+        <div class="relative overflow-hidden w-full">
+          <div id="marquee-content" class="marquee-track flex gap-3 w-max animate-marquee">
+            <!-- Injected via JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Wooden Search Hero & Gemini AI Prep Notice -->
+      <div class="text-center max-w-3xl mx-auto space-y-3 pt-2">
+        <h2 class="text-xl sm:text-3xl font-black font-serif text-parchment-100 tracking-wide leading-snug">
+          دليل <span class="text-brass-400">المجلدات ومسارات Google Drive</span>
+        </h2>
+        <p class="text-parchment-300 text-xs sm:text-sm font-light">
+          ابحث عن أي كتاب لمعرفة مساره الدقيق داخل مجلدات درايف وموقعه التراثي
+        </p>
+
+        <!-- Search Bar -->
+        <div class="relative max-w-2xl mx-auto mt-4">
+          <div class="relative">
+            <span class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none text-brass-500">
+              <i data-lucide="search" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+            </span>
+            <input 
+              type="text" 
+              id="search-input"
+              oninput="app.handleSearch(this.value)"
+              placeholder="ابحث بعنوان الكتاب، اسم المؤلف، أو مكان المجلد..."
+              class="w-full pr-11 pl-10 py-3 bg-wood-950 text-parchment-100 rounded-xl sm:rounded-2xl border-2 border-wood-700 shadow-xl focus:border-brass-500 focus:ring-2 focus:ring-brass-500/20 outline-none placeholder:text-wood-400 text-xs sm:text-base font-medium transition-all"
+            />
+            <button 
+              id="search-clear-btn" 
+              onclick="app.clearSearch()" 
+              class="hidden absolute inset-y-0 left-0 flex items-center pl-3 text-parchment-400 hover:text-white">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Active Filter Badge -->
+          <div id="active-category-indicator" class="hidden mt-2.5 flex items-center justify-between text-xs bg-wood-900 border border-brass-600/50 text-brass-400 rounded-xl px-3.5 py-2">
+            <div class="flex items-center gap-2 truncate">
+              <i data-lucide="folder-open" class="w-4 h-4 text-brass-400 shrink-0"></i>
+              <span class="truncate">المجلد النشط:</span>
+              <strong id="active-cat-name" class="font-bold text-parchment-100 font-serif truncate"></strong>
+            </div>
+            <button onclick="app.selectCategory(null)" class="text-parchment-300 hover:text-white flex items-center gap-1 shrink-0">
+              <span>إلغاء التصفية</span>
+              <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Layout: Folder Sidebar & Book Cards Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 pt-2">
+        
+        <!-- Folder Tree Sidebar -->
+        <aside class="lg:col-span-1 wood-panel rounded-2xl p-4 border-2 border-wood-700 h-fit space-y-3">
+          <div class="flex items-center justify-between border-b border-wood-700 pb-2.5">
+            <h3 class="font-bold text-parchment-100 flex items-center gap-1.5 text-xs sm:text-sm font-serif">
+              <i data-lucide="folder-tree" class="w-4 h-4 text-brass-400"></i>
+              <span>فهرس مجلدات Google Drive</span>
+            </h3>
+            <button onclick="app.selectCategory(null)" class="text-[11px] text-brass-400 hover:underline">الكل</button>
+          </div>
+          
+          <div id="category-tree-nav" class="space-y-1 max-h-[350px] lg:max-h-[500px] overflow-y-auto pr-1 text-xs">
+            <!-- Dynamic Categories -->
+          </div>
+        </aside>
+
+        <!-- Books Grid Display -->
+        <div class="lg:col-span-3 space-y-3">
+          <!-- Summary Bar -->
+          <div class="flex items-center justify-between text-xs text-parchment-300 px-1 border-b border-wood-800 pb-2">
+            <div>
+              <span>النتائج المعروضة: </span>
+              <span id="results-count" class="font-bold text-brass-400 text-sm">0</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <label for="sort-select">ترتيب:</label>
+              <select id="sort-select" onchange="app.handleSort(this.value)" class="bg-wood-900 border border-wood-700 rounded-lg px-2 py-1 text-xs text-parchment-100 outline-none focus:border-brass-500">
+                <option value="newest">الأحدث</option>
+                <option value="title">العنوان</option>
+                <option value="author">المؤلف</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Books Grid -->
+          <div id="books-grid" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
+            <!-- Dynamic Books Cards -->
+          </div>
+
+          <!-- Empty State -->
+          <div id="empty-state" class="text-center py-16 wood-panel rounded-2xl border-2 border-dashed border-wood-700 p-6 space-y-3">
+            <div class="w-14 h-14 mx-auto rounded-2xl brass-plate flex items-center justify-center text-wood-950">
+              <i data-lucide="folder-search" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-sm font-bold text-parchment-100 font-serif">المكتبة فارغة حالياً أو لم تطابق بحثك</h3>
+            <p class="text-xs text-parchment-300 max-w-sm mx-auto">
+              أضف كتباً يدوياً عبر لوحة الإدارة أو استورد هيكل مجلدات Google Drive الخاص بك فورياً.
+            </p>
+            <div class="pt-2">
+              <button onclick="app.openAdminAuth()" class="px-4 py-2 brass-plate rounded-xl text-xs font-bold inline-flex items-center gap-1.5 shadow-lg">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                <span>انتقل للوحة الإدارة</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: ADMIN DASHBOARD                    -->
+    <!-- ========================================== -->
+    <section id="view-admin" class="hidden space-y-5">
+      
+      <!-- Admin Ribbon -->
+      <div class="wood-panel rounded-2xl p-4 sm:p-5 border-2 border-wood-700 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-brass-500 animate-pulse"></span>
+            <h2 class="text-base sm:text-xl font-bold font-serif text-parchment-100">لوحة الإدارة والتحكم في المجلدات</h2>
+          </div>
+          <p class="text-[11px] sm:text-xs text-parchment-300">إدارة الكتب، ربط مجلدات Google Drive، وتصدير هيكل JSON لتكامل الذكاء الاصطناعي</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="app.openEditBookModal()" class="px-3 py-2 brass-plate rounded-xl text-xs font-bold flex items-center gap-1 shadow-md">
+            <i data-lucide="book-plus" class="w-4 h-4"></i>
+            <span>إضافة كتاب</span>
+          </button>
+          <button onclick="app.showModal('modal-category')" class="px-3 py-2 bg-wood-800 hover:bg-wood-700 text-parchment-100 border border-wood-600 rounded-xl text-xs font-bold flex items-center gap-1">
+            <i data-lucide="folder-plus" class="w-4 h-4 text-brass-400"></i>
+            <span>مجلد جديد</span>
+          </button>
+          <button onclick="app.lockAdmin()" class="px-3 py-2 bg-wood-950 hover:bg-rose-950 text-parchment-300 hover:text-rose-300 border border-wood-700 rounded-xl text-xs font-bold flex items-center gap-1">
+            <i data-lucide="lock" class="w-4 h-4"></i>
+            <span>قفل</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Navigation Tabs -->
+      <div class="flex border-b border-wood-700 space-x-reverse space-x-2 sm:space-x-4 text-xs font-bold overflow-x-auto">
+        <button id="admin-tab-books-btn" onclick="app.switchAdminTab('books')" class="px-3 py-2.5 border-b-2 border-brass-500 text-brass-400 flex items-center gap-1.5 shrink-0">
+          <i data-lucide="library" class="w-4 h-4"></i>
+          <span>الكتب (<span id="admin-total-books-badge">0</span>)</span>
+        </button>
+        <button id="admin-tab-cats-btn" onclick="app.switchAdminTab('cats')" class="px-3 py-2.5 border-b-2 border-transparent text-parchment-300 hover:text-white flex items-center gap-1.5 shrink-0">
+          <i data-lucide="folder-tree" class="w-4 h-4"></i>
+          <span>المجلدات</span>
+        </button>
+        <button id="admin-tab-drive-btn" onclick="app.switchAdminTab('drive')" class="px-3 py-2.5 border-b-2 border-transparent text-parchment-300 hover:text-white flex items-center gap-1.5 shrink-0">
+          <i data-lucide="hard-drive-download" class="w-4 h-4"></i>
+          <span>مزامنة Google Drive</span>
+        </button>
+        <button id="admin-tab-ai-btn" onclick="app.switchAdminTab('ai')" class="px-3 py-2.5 border-b-2 border-transparent text-parchment-300 hover:text-white flex items-center gap-1.5 shrink-0">
+          <i data-lucide="bot" class="w-4 h-4 text-brass-400"></i>
+          <span>تصدير JSON لـ Gemini AI</span>
+        </button>
+      </div>
+
+      <!-- Admin Tab 1: Books Table -->
+      <div id="admin-tab-books" class="space-y-4">
+        <div class="wood-panel rounded-2xl border-2 border-wood-700 overflow-hidden shadow-xl">
+          <div class="p-3.5 border-b border-wood-700 flex flex-wrap gap-3 items-center justify-between">
+            <div class="relative w-full max-w-xs">
+              <input 
+                type="text" 
+                id="admin-book-search" 
+                oninput="app.renderAdminBooksTable(this.value)" 
+                placeholder="بحث في الكتب..." 
+                class="w-full pl-3 pr-9 py-2 text-xs bg-wood-950 border border-wood-700 text-parchment-100 rounded-lg focus:outline-none focus:border-brass-500"
+              />
+              <i data-lucide="search" class="w-4 h-4 text-wood-400 absolute right-3 top-2.5"></i>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-right text-xs">
+              <thead class="bg-wood-950 text-parchment-300 font-bold border-b border-wood-700 uppercase tracking-wider font-serif">
+                <tr>
+                  <th class="p-3">مميز</th>
+                  <th class="p-3">الغلاف والعنوان</th>
+                  <th class="p-3">المؤلف</th>
+                  <th class="p-3">مسار Google Drive الدقيق</th>
+                  <th class="p-3 text-center">الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="admin-books-tbody" class="divide-y divide-wood-800 text-parchment-200">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Tab 2: Category Manager -->
+      <div id="admin-tab-cats" class="hidden space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="md:col-span-2 wood-panel rounded-2xl border-2 border-wood-700 p-4">
+            <h3 class="text-sm font-bold font-serif text-parchment-100 mb-2 flex items-center gap-1.5">
+              <i data-lucide="folder-tree" class="w-4 h-4 text-brass-400"></i>
+              <span>شجرة المجلدات الهرمية</span>
+            </h3>
+            <div id="admin-category-tree" class="space-y-1">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+
+          <div class="bg-wood-900 border border-wood-700 rounded-2xl p-4 h-fit space-y-3">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-brass-400 font-serif">إنشاء مجلد جديد</h4>
+            <div class="space-y-2.5">
+              <div>
+                <label class="block text-xs text-parchment-300 mb-1">اسم المجلد</label>
+                <input type="text" id="quick-cat-name" placeholder="مثلاً: التفسير وعلوم القرآن" class="w-full p-2.5 text-xs bg-wood-950 border border-wood-700 rounded-lg text-parchment-100 outline-none focus:border-brass-500">
+              </div>
+              <div>
+                <label class="block text-xs text-parchment-300 mb-1">المجلد الأب (اختياري)</label>
+                <select id="quick-cat-parent" class="w-full p-2.5 text-xs bg-wood-950 border border-wood-700 rounded-lg text-parchment-100 outline-none focus:border-brass-500">
+                  <option value="">-- مجلد رئيسي جديد --</option>
+                </select>
+              </div>
+              <button onclick="app.quickAddCategory()" class="w-full py-2.5 brass-plate rounded-lg text-xs font-bold shadow-md">
+                إنشاء المجلد
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Tab 3: Google Drive Sync & Secure Passcode -->
+      <div id="admin-tab-drive" class="hidden space-y-5">
+        <div class="wood-panel rounded-2xl p-5 border-2 border-brass-600/40 space-y-5">
+          
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl brass-plate flex items-center justify-center shrink-0">
+              <i data-lucide="shield-alert" class="w-5 h-5 sm:w-6 sm:h-6 text-wood-950"></i>
+            </div>
+            <div>
+              <h3 class="text-sm sm:text-base font-bold font-serif text-parchment-100">دليل ربط Google Drive وحماية البصمة المشفرة (SHA-256)</h3>
+              <p class="text-[11px] sm:text-xs text-parchment-300">منع التلاعب عبر رابط عام، مع مزامنة فورية لهيكل مجلدات درايف.</p>
+            </div>
+          </div>
+
+          <!-- Secure Passcode Box -->
+          <div class="p-4 bg-wood-900 border border-brass-600/40 rounded-xl space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-parchment-100 flex items-center gap-1.5 font-serif">
+                <i data-lucide="key-round" class="w-4 h-4 text-brass-400"></i>
+                <span>تعيين كلمة المرور لحماية التعديل والمزامنة</span>
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-900 text-emerald-300 border border-emerald-700">الافتراضي: admin123</span>
+            </div>
+            <div class="flex gap-2">
+              <input type="password" id="admin-new-passcode-input" placeholder="اكتب كلمة السر الجديدة..." class="flex-1 p-2.5 text-xs bg-wood-950 border border-wood-700 text-parchment-100 rounded-lg outline-none focus:border-brass-500">
+              <button onclick="app.updateHashedAdminPassword()" class="px-4 py-2.5 brass-plate rounded-lg text-xs font-bold shadow-md shrink-0">
+                تحديث البصمة
+              </button>
+            </div>
+          </div>
+
+          <!-- Step-by-Step Guide -->
+          <div class="bg-wood-950/90 p-4 rounded-xl border border-wood-700 space-y-3 text-xs text-parchment-300">
+            <h4 class="font-bold text-brass-400 font-serif text-sm flex items-center gap-1.5">
+              <i data-lucide="list-ordered" class="w-4 h-4"></i>
+              <span>خطوات ربط Google Drive واستخراج مسارات الكتب:</span>
+            </h4>
+            <div class="space-y-2 pr-2">
+              <div class="flex gap-2.5 items-start">
+                <span class="w-5 h-5 rounded-full bg-wood-800 text-brass-400 font-bold flex items-center justify-center shrink-0 text-[10px]">1</span>
+                <div>رتب مجلداتك على درايف بهذا الشكل: <code class="text-brass-400">القسم الرئيسي ➔ القسم الفرعي ➔ اسم الكتاب - اسم المؤلف.pdf</code></div>
+              </div>
+              <div class="flex gap-2.5 items-start">
+                <span class="w-5 h-5 rounded-full bg-wood-800 text-brass-400 font-bold flex items-center justify-center shrink-0 text-[10px]">2</span>
+                <div>استخدم كود Google Apps Script أدناه لاستخراج كافة المسارات تلقائياً.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Script Generator & Batch Import -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="space-y-2.5">
+              <label class="block text-xs font-bold text-parchment-200">معرّف مجلد Google Drive (Folder ID):</label>
+              <input type="text" id="gdrive-folder-id" placeholder="ضع معرف المجلد هنا" class="w-full p-2.5 text-xs bg-wood-950 border border-wood-700 text-parchment-100 rounded-lg outline-none">
+              <button onclick="app.generateDriveScript()" class="w-full py-2.5 brass-plate rounded-lg text-xs font-bold shadow-md">
+                توليد كود Apps Script
+              </button>
+            </div>
+            <div class="space-y-2">
+              <label class="block text-xs font-bold text-parchment-200">كود Apps Script الناتج:</label>
+              <textarea id="gdrive-script-output" rows="4" readonly class="w-full p-2 text-[11px] font-mono bg-wood-950 border border-wood-700 text-emerald-400 rounded-lg outline-none select-all"></textarea>
+            </div>
+          </div>
+
+          <!-- Import Text Paths Box -->
+          <div class="border-t border-wood-700 pt-4 space-y-3">
+            <h4 class="text-xs font-bold text-brass-400 uppercase font-serif">إدخال مسارات درايف (محمي بكلمة السر):</h4>
+            <textarea id="batch-text-paths" rows="3" placeholder="التاريخ/الأندلس/نزهة المشتاق - الإدريسي.pdf&#10;الفقه/الحنبلي/المغني - ابن قدامة.pdf" class="w-full p-2.5 text-xs font-mono bg-wood-950 border border-wood-700 text-parchment-100 rounded-lg outline-none"></textarea>
+            <div class="flex flex-wrap gap-2 items-center justify-between">
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <input type="password" id="auth-confirm-pass" placeholder="كلمة المرور..." class="p-2.5 text-xs bg-wood-950 border border-wood-700 text-parchment-100 rounded-lg outline-none w-36">
+                <button onclick="app.parseTextPathsBatchSecure()" class="py-2.5 px-4 brass-plate rounded-lg text-xs font-bold shadow-md flex items-center gap-1">
+                  <i data-lucide="shield-check" class="w-4 h-4"></i>
+                  <span>تأكيد واستيراد</span>
+                </button>
+              </div>
+              <label class="py-2.5 px-4 bg-wood-800 hover:bg-wood-700 border border-wood-600 text-parchment-100 rounded-lg text-xs font-bold cursor-pointer inline-flex items-center gap-2">
+                <i data-lucide="folder-search" class="w-4 h-4 text-brass-400"></i>
+                <span>استعراض مجلد محلي</span>
+                <input type="file" id="batch-local-folder" webkitdirectory directory multiple class="hidden" onchange="app.handleBatchFolderUpload(this.files)">
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Admin Tab 4: Gemini AI JSON Export -->
+      <div id="admin-tab-ai" class="hidden space-y-5">
+        <div class="wood-panel rounded-2xl p-5 border border-wood-700 space-y-4">
+          <div class="flex items-center gap-2 text-brass-400">
+            <i data-lucide="bot" class="w-6 h-6"></i>
+            <h3 class="text-base font-bold font-serif text-parchment-100">تصدير هيكل البيانات لـ Gemini AI</h3>
+          </div>
+          <p class="text-xs text-parchment-300 leading-relaxed">
+            هذا الملف يحتوي على كامل هيكل المجلدات والكتب والمسارات الدقيقة. يمكنك تغذيته لاحقاً لنموذج Gemini AI ليتمكن المستخدمون من البحث بالعناوين التقريبية أو الوصف العام للمحتوى.
+          </p>
+
+          <div class="space-y-3">
+            <textarea id="ai-json-output" rows="8" readonly class="w-full p-3 text-[11px] font-mono bg-wood-950 border border-wood-700 text-brass-400 rounded-xl outline-none select-all"></textarea>
+            <div class="flex gap-2">
+              <button onclick="app.generateAiJsonExport()" class="py-2.5 px-4 brass-plate rounded-xl text-xs font-bold shadow-md flex items-center gap-1.5">
+                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                <span>تحديث وعرض JSON</span>
+              </button>
+              <button onclick="app.downloadAiJson()" class="py-2.5 px-4 bg-wood-800 hover:bg-wood-700 text-parchment-100 border border-wood-600 rounded-xl text-xs font-bold flex items-center gap-1.5">
+                <i data-lucide="download" class="w-4 h-4 text-brass-400"></i>
+                <span>تنزيل ملف JSON</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL: BOOK DETAILS & DRIVE EXACT LOCATION -->
+  <!-- ========================================== -->
+  <div id="modal-book-details" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="wood-panel rounded-3xl max-w-xl w-full border-2 border-brass-600/50 shadow-2xl overflow-hidden my-auto">
+      
+      <div class="p-4 border-b border-wood-700 bg-wood-950/60 flex items-center justify-between">
+        <span class="text-xs font-bold text-brass-400 font-serif">تفاصيل الكتاب ومسار الدرايف</span>
+        <button onclick="app.hideModal('modal-book-details')" class="text-parchment-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-5 sm:p-6 space-y-5">
+        <div class="flex flex-col sm:flex-row gap-5 items-center sm:items-start text-center sm:text-right">
+          <!-- Procedural Cover Rendered in Modal -->
+          <div id="detail-cover-box" class="w-32 h-44 sm:w-36 sm:h-48 rounded-xl overflow-hidden shadow-2xl border-2 border-wood-700 shrink-0 flex flex-col justify-between p-3 text-right">
+            <!-- Injected dynamically -->
+          </div>
+          
+          <div class="space-y-3 flex-1">
+            <h2 id="detail-title" class="text-xl sm:text-2xl font-bold font-serif text-parchment-100 leading-snug"></h2>
+            
+            <div class="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-parchment-300">
+              <i data-lucide="feather" class="w-4 h-4 text-brass-400 shrink-0"></i>
+              <span>المؤلف:</span>
+              <strong id="detail-author" class="text-parchment-100 font-bold"></strong>
+            </div>
+
+            <!-- Exact Google Drive Folder Path -->
+            <div class="p-3 bg-wood-950/90 border border-brass-600/40 rounded-xl space-y-1 text-right">
+              <span class="text-[10px] text-brass-400 font-bold flex items-center gap-1 font-serif">
+                <i data-lucide="folder-check" class="w-3.5 h-3.5"></i>
+                <span>مكان المجلد الدقيق في Google Drive:</span>
+              </span>
+              <p id="detail-drive-path" class="text-xs font-mono text-parchment-100 break-all bg-wood-900 p-2 rounded border border-wood-700"></p>
+            </div>
+
+            <div class="space-y-1">
+              <span class="text-[10px] text-parchment-400 block font-serif">وصف الكتاب:</span>
+              <p id="detail-desc" class="text-xs text-parchment-300 leading-relaxed"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ADMIN PASSCODE AUTH                 -->
+  <!-- ========================================== -->
+  <div id="modal-admin-auth" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="wood-panel rounded-3xl max-w-xs w-full p-6 border-2 border-wood-700 text-center space-y-4 shadow-2xl">
+      <div class="w-12 h-12 rounded-xl brass-plate mx-auto flex items-center justify-center border-2 border-brass-600">
+        <i data-lucide="key" class="w-6 h-6 text-wood-950"></i>
+      </div>
+      <div>
+        <h3 class="text-sm font-bold font-serif text-parchment-100">رمز الدخول المشفر للإدارة</h3>
+        <p class="text-[11px] text-parchment-300 mt-0.5">الافتراضي: <span class="font-mono font-bold text-brass-400">admin123</span></p>
+      </div>
+      <div>
+        <input type="password" id="admin-passcode-input" placeholder="••••••••" class="w-full text-center tracking-widest text-base p-2.5 bg-wood-950 border border-wood-700 text-parchment-100 rounded-xl outline-none focus:border-brass-500" onkeyup="if(event.key==='Enter') app.verifyAdminPasscode()">
+        <span id="auth-error-msg" class="text-[11px] text-rose-400 hidden mt-1 block">رمز المرور غير صحيح!</span>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="app.hideModal('modal-admin-auth')" class="flex-1 py-2 text-xs font-bold text-parchment-300 hover:bg-wood-800 rounded-xl">إلغاء</button>
+        <button onclick="app.verifyAdminPasscode()" class="flex-1 py-2 text-xs font-bold brass-plate rounded-xl shadow-md">دخول</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CATEGORY CREATE                     -->
+  <!-- ========================================== -->
+  <div id="modal-category" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="wood-panel rounded-2xl max-w-sm w-full p-5 border border-wood-700 space-y-4">
+      <div class="flex items-center justify-between border-b border-wood-700 pb-2.5">
+        <h3 class="text-sm font-bold font-serif text-parchment-100">إنشاء مجلد جديد</h3>
+        <button onclick="app.hideModal('modal-category')" class="text-parchment-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs text-parchment-300 mb-1">اسم المجلد</label>
+          <input type="text" id="cat-name-input" placeholder="مثلاً: التاريخ الإسلامي" class="w-full p-2.5 text-xs bg-wood-950 border border-wood-700 text-parchment-100 rounded-lg outline-none">
+        </div>
+        <div>
+          <label class="block text-xs text-parchment-300 mb-1">المجلد الأب</label>
+          <select id="cat-parent-select" class="w-full p-2.5 text-xs bg-wood-950 border border-wood-700 text-parchment-100 rounded-lg outline-none">
+            <option value="">-- مجلد رئيسي --</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-wood-700">
+        <button onclick="app.hideModal('modal-category')" class="px-3 py-1.5 text-xs text-parchment-300">إلغاء</button>
+        <button onclick="app.saveCategory()" class="px-4 py-1.5 text-xs font-bold brass-plate rounded-lg">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: BOOK CREATE / EDIT                  -->
+  <!-- ========================================== -->
+  <div id="modal-book" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="wood-panel rounded-3xl max-w-lg w-full border-2 border-brass-600/50 p-5 sm:p-6 space-y-4 my-auto shadow-2xl">
+      <div class="flex items-center justify-between border-b border-wood-700 pb-3">
+        <h3 id="book-modal-title" class="text-sm sm:text-base font-bold font-serif text-parchment-100">إضافة كتاب جديد</h3>
+        <button onclick="app.hideModal('modal-book')" class="text-parchment-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <input type="hidden" id="edit-book-id">
+      
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs text-parchment-300 mb-1">عنوان الكتاب <span class="text-rose-400">*</span></label>
+          <input type="text" id="book-form-title" placeholder="عنوان الكتاب كاملاً" class="w-full p-2.5 text-xs bg-wood-950 border border-wood-700 text-parchment-100 rounded-lg outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs text-parchment-300 mb-1">اسم المؤلف <span class="text-rose-400">*</span></label>
+          <input type="text" id="book-form-author" placeholder="اسم المؤلف" class="w-full p-2.5 text-xs bg-wood-950 border border-wood-700 text-parchment-100 rounded-lg outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs text-parchment-300 mb-1">وصف الكتاب (اختياري)</label>
+          <textarea id="book-form-desc" rows="2" placeholder="نبذة مختصرة..." class="w-full p-2.5 text-xs bg-wood-950 border border-wood-700 text-parchment-100 rounded-lg outline-none"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs text-parchment-300 mb-1">المجلد التابع له (يحدد مسار Google Drive)</label>
+          <select id="book-form-category" class="w-full p-2.5 text-xs bg-wood-950 border border-wood-700 text-parchment-100 rounded-lg outline-none">
+            <!-- Categories -->
+          </select>
+        </div>
+
+        <div class="flex items-center gap-2 pt-1">
+          <input type="checkbox" id="book-form-iscover" onchange="app.toggleCustomCoverInput(this.checked)" class="rounded text-brass-500 w-4 h-4">
+          <label for="book-form-iscover" class="text-xs text-parchment-200 cursor-pointer">استخدام غلاف مخصص (is_cover = true)</label>
+        </div>
+
+        <div id="custom-cover-box" class="hidden">
+          <label class="block text-xs text-parchment-300 mb-1">رابط صورة الغلاف المخصصة</label>
+          <input type="text" id="book-form-coverurl" placeholder="https://..." class="w-full p-2.5 text-xs bg-wood-950 border border-wood-700 text-parchment-100 rounded-lg outline-none">
+        </div>
+
+        <div class="flex items-center gap-2 pt-1">
+          <input type="checkbox" id="book-form-featured" class="rounded text-brass-500 w-4 h-4">
+          <label for="book-form-featured" class="text-xs text-parchment-200 cursor-pointer">إدراج في شريط المختارات المميزة</label>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-3 border-t border-wood-700">
+        <button onclick="app.hideModal('modal-book')" class="px-3.5 py-2 text-xs text-parchment-300">إلغاء</button>
+        <button onclick="app.saveBook()" class="px-4 py-2 text-xs font-bold brass-plate rounded-lg shadow-md">حفظ الكتاب</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 left-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none wood-panel border border-brass-600/50 text-parchment-100 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 text-xs">
+    <i data-lucide="check-circle" class="w-4 h-4 text-brass-400"></i>
+    <span id="toast-msg">تمت العملية بنجاح</span>
+  </div>
+
+  <script>
+    /**
+     * Commercial Wooden Digital Library Engine (Clean Initial State)
+     */
+    const CLEAN_INITIAL_STATE = {
+      adminPasswordHash: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", // admin123
+      categories: [],
+      books: []
+    };
+
+    // Procedural Cover Color Themes
+    const COVER_THEMES = [
+      { bg: '#3d2314', border: '#b28722', text: '#f9f5ec', accent: '#e5c158' },
+      { bg: '#1c2d37', border: '#5b92e5', text: '#f9f5ec', accent: '#76b0ff' },
+      { bg: '#2b2118', border: '#c5a46d', text: '#f9f5ec', accent: '#e5c158' },
+      { bg: '#233224', border: '#5ba362', text: '#f9f5ec', accent: '#81c784' },
+      { bg: '#361e2b', border: '#b565a7', text: '#f9f5ec', accent: '#f06292' }
+    ];
+
+    class LibraryApp {
+      constructor() {
+        this.storageKey = 'commercial_wooden_library_v3';
+        this.state = this.loadState();
+        this.currentView = 'user';
+        this.isAdminAuthenticated = false;
+        this.activeCategoryFilter = null;
+        this.searchQuery = '';
+        this.currentSort = 'newest';
+        this.currentBookDetail = null;
+      }
+
+      loadState() {
+        try {
+          const raw = localStorage.getItem(this.storageKey);
+          if (raw) return JSON.parse(raw);
+        } catch (e) {
+          console.warn("Storage unreadable.", e);
+        }
+        return JSON.parse(JSON.stringify(CLEAN_INITIAL_STATE));
+      }
+
+      saveState() {
+        try {
+          localStorage.setItem(this.storageKey, JSON.stringify(this.state));
+        } catch (e) {
+          console.error("Storage error", e);
+        }
+      }
+
+      async hashString(message) {
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      init() {
+        this.renderUserMarquee();
+        this.renderCategorySidebar();
+        this.renderBooks();
+        this.populateCategoryDropdowns();
+        this.generateAiJsonExport();
+        lucide.createIcons();
+      }
+
+      toast(msg, isError = false) {
+        const toast = document.getElementById('toast');
+        const text = document.getElementById('toast-msg');
+        if (!toast || !text) return;
+        text.innerText = msg;
+        toast.className = `fixed bottom-5 left-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 pointer-events-none wood-panel border ${isError ? 'border-rose-600 text-rose-200' : 'border-brass-600/50 text-parchment-100'} px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 text-xs`;
+        setTimeout(() => {
+          toast.className = 'fixed bottom-5 left-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none wood-panel border border-brass-600/50 text-parchment-100 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 text-xs';
+        }, 3000);
+      }
+
+      navigate(viewName) {
+        this.currentView = viewName;
+        const userView = document.getElementById('view-user');
+        const adminView = document.getElementById('view-admin');
+        const btnUser = document.getElementById('nav-btn-user');
+        const btnAdmin = document.getElementById('nav-btn-admin');
+
+        if (viewName === 'user') {
+          userView.classList.remove('hidden');
+          adminView.classList.add('hidden');
+          btnUser.className = "px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1 brass-plate";
+          btnAdmin.className = "px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1 bg-wood-900 hover:bg-wood-800 text-parchment-200 border border-wood-700";
+        } else {
+          userView.classList.add('hidden');
+          adminView.classList.remove('hidden');
+          btnAdmin.className = "px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1 brass-plate";
+          btnUser.className = "px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1 bg-wood-900 hover:bg-wood-800 text-parchment-200 border border-wood-700";
+          this.renderAdminBooksTable();
+          this.renderAdminCategoryTree();
+          this.generateAiJsonExport();
+        }
+        lucide.createIcons();
+      }
+
+      openAdminAuth() {
+        if (this.isAdminAuthenticated) {
+          this.navigate('admin');
+        } else {
+          this.showModal('modal-admin-auth');
+          const passInput = document.getElementById('admin-passcode-input');
+          passInput.value = '';
+          document.getElementById('auth-error-msg').classList.add('hidden');
+          setTimeout(() => passInput.focus(), 150);
+        }
+      }
+
+      async verifyAdminPasscode() {
+        const input = document.getElementById('admin-passcode-input').value.trim();
+        const hashedInput = await this.hashString(input);
+
+        if (hashedInput === this.state.adminPasswordHash) {
+          this.isAdminAuthenticated = true;
+          this.hideModal('modal-admin-auth');
+          this.navigate('admin');
+          this.toast("تم التحقق بنجاح");
+        } else {
+          document.getElementById('auth-error-msg').classList.remove('hidden');
+        }
+      }
+
+      async updateHashedAdminPassword() {
+        const newPass = document.getElementById('admin-new-passcode-input').value.trim();
+        if (!newPass || newPass.length < 4) {
+          this.toast("أدخل كلمة مرور من 4 خانات على الأقل", true);
+          return;
+        }
+        this.state.adminPasswordHash = await this.hashString(newPass);
+        this.saveState();
+        document.getElementById('admin-new-passcode-input').value = '';
+        this.toast("تم تحديث وحفظ البصمة المشفرة بنجاح");
+      }
+
+      lockAdmin() {
+        this.isAdminAuthenticated = false;
+        this.navigate('user');
+        this.toast("تم قفل لوحة الإدارة");
+      }
+
+      switchAdminTab(tabKey) {
+        ['books', 'cats', 'drive', 'ai'].forEach(k => {
+          const tab = document.getElementById(`admin-tab-${k}`);
+          const btn = document.getElementById(`admin-tab-${k}-btn`);
+          if (k === tabKey) {
+            tab.classList.remove('hidden');
+            btn.className = "px-3 py-2.5 border-b-2 border-brass-500 text-brass-400 flex items-center gap-1.5 shrink-0";
+          } else {
+            tab.classList.add('hidden');
+            btn.className = "px-3 py-2.5 border-b-2 border-transparent text-parchment-300 hover:text-white flex items-center gap-1.5 shrink-0";
+          }
+        });
+        lucide.createIcons();
+      }
+
+      getCategoryBreadcrumb(categoryId) {
+        const path = [];
+        let curr = this.state.categories.find(c => c.id === categoryId);
+        while (curr) {
+          path.unshift(curr);
+          curr = this.state.categories.find(c => c.id === curr.parentId);
+        }
+        return path;
+      }
+
+      getCategoryPathString(categoryId) {
+        const crumbs = this.getCategoryBreadcrumb(categoryId);
+        return crumbs.map(c => c.name).join(' ❯ ') || 'المجلد الرئيسي';
+      }
+
+      getAllSubCategoryIds(parentId) {
+        let ids = [parentId];
+        const children = this.state.categories.filter(c => c.parentId === parentId);
+        children.forEach(child => {
+          ids = ids.concat(this.getAllSubCategoryIds(child.id));
+        });
+        return ids;
+      }
+
+      renderUserMarquee() {
+        const container = document.getElementById('marquee-content');
+        const marqueeBox = document.getElementById('marquee-container');
+        const featured = this.state.books.filter(b => b.isFeatured);
+
+        if (featured.length === 0) {
+          marqueeBox.classList.add('hidden');
+          return;
+        }
+        marqueeBox.classList.remove('hidden');
+
+        const renderList = [...featured, ...featured];
+        container.innerHTML = renderList.map((book, idx) => {
+          const theme = COVER_THEMES[idx % COVER_THEMES.length];
+          return `
+            <div onclick="app.showBookDetails('${book.id}')" class="flex items-center gap-2.5 bg-wood-950/90 hover:bg-wood-900 border border-wood-700 px-3 py-2 rounded-xl cursor-pointer transition-all shrink-0 shadow-md">
+              <div class="w-7 h-10 rounded shrink-0 flex flex-col justify-between p-1 text-[8px] font-serif font-bold text-right" style="background:${theme.bg}; border:1px solid ${theme.border}; color:${theme.text}">
+                <span class="truncate">${book.title}</span>
+              </div>
+              <div class="text-right">
+                <span class="block text-xs font-bold text-parchment-100 max-w-[130px] truncate font-serif">${book.title}</span>
+                <span class="block text-[10px] text-brass-400 max-w-[130px] truncate">${book.author}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      renderCategorySidebar() {
+        const container = document.getElementById('category-tree-nav');
+        if (this.state.categories.length === 0) {
+          container.innerHTML = '<p class="text-xs text-parchment-400 p-2">لا توجد مجلدات مسجلة.</p>';
+          return;
+        }
+
+        const buildTree = (parentId, depth = 0) => {
+          const children = this.state.categories.filter(c => c.parentId === parentId);
+          if (children.length === 0) return '';
+
+          return children.map(cat => {
+            const hasSub = this.state.categories.some(c => c.parentId === cat.id);
+            const count = this.state.books.filter(b => this.getAllSubCategoryIds(cat.id).includes(b.categoryId)).length;
+            const isSelected = this.activeCategoryFilter === cat.id;
+
+            return `
+              <div class="select-none">
+                <button 
+                  onclick="app.selectCategory('${cat.id}')" 
+                  style="margin-right: ${depth * 12}px"
+                  class="w-full text-right flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-colors ${isSelected ? 'bg-wood-800 text-brass-400 font-bold border border-brass-600/40' : 'text-parchment-300 hover:bg-wood-900'}">
+                  <div class="flex items-center gap-1.5 truncate">
+                    <i data-lucide="${hasSub ? 'folder-open' : 'folder'}" class="w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-brass-400' : 'text-wood-400'}"></i>
+                    <span class="truncate font-serif">${cat.name}</span>
+                  </div>
+                  <span class="text-[10px] bg-wood-950 text-parchment-400 rounded-full px-2 py-0.2 border border-wood-800">${count}</span>
+                </button>
+                ${buildTree(cat.id, depth + 1)}
+              </div>
+            `;
+          }).join('');
+        };
+
+        container.innerHTML = buildTree(null);
+        lucide.createIcons();
+      }
+
+      selectCategory(catId) {
+        this.activeCategoryFilter = catId;
+        const ind = document.getElementById('active-category-indicator');
+        const nameSpan = document.getElementById('active-cat-name');
+        
+        if (catId) {
+          ind.classList.remove('hidden');
+          nameSpan.innerText = this.getCategoryPathString(catId);
+        } else {
+          ind.classList.add('hidden');
+        }
+        this.renderCategorySidebar();
+        this.renderBooks();
+      }
+
+      handleSearch(query) {
+        this.searchQuery = query.trim().toLowerCase();
+        const clearBtn = document.getElementById('search-clear-btn');
+        if (this.searchQuery.length > 0) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+        this.renderBooks();
+      }
+
+      clearSearch() {
+        document.getElementById('search-input').value = '';
+        this.handleSearch('');
+      }
+
+      handleSort(val) {
+        this.currentSort = val;
+        this.renderBooks();
+      }
+
+      renderBooks() {
+        const grid = document.getElementById('books-grid');
+        const emptyState = document.getElementById('empty-state');
+        const countSpan = document.getElementById('results-count');
+
+        let filtered = this.state.books.filter(b => {
+          if (this.activeCategoryFilter) {
+            const allowed = this.getAllSubCategoryIds(this.activeCategoryFilter);
+            if (!allowed.includes(b.categoryId)) return false;
+          }
+          if (this.searchQuery) {
+            const inTitle = (b.title || '').toLowerCase().includes(this.searchQuery);
+            const inAuthor = (b.author || '').toLowerCase().includes(this.searchQuery);
+            const pathStr = this.getCategoryPathString(b.categoryId).toLowerCase();
+            if (!inTitle && !inAuthor && !pathStr.includes(this.searchQuery)) return false;
+          }
+          return true;
+        });
+
+        filtered.sort((a, b) => {
+          if (this.currentSort === 'title') return a.title.localeCompare(b.title, 'ar');
+          if (this.currentSort === 'author') return a.author.localeCompare(b.author, 'ar');
+          return (b.createdAt || 0) - (a.createdAt || 0);
+        });
+
+        countSpan.innerText = filtered.length;
+
+        if (filtered.length === 0) {
+          grid.innerHTML = '';
+          emptyState.classList.remove('hidden');
+          return;
+        }
+
+        emptyState.classList.add('hidden');
+        grid.innerHTML = filtered.map((book, idx) => {
+          const pathStr = this.getCategoryPathString(book.categoryId);
+          const theme = COVER_THEMES[idx % COVER_THEMES.length];
+          const hasCustomCover = book.is_cover && book.coverUrl;
+
+          return `
+            <div 
+              onclick="app.showBookDetails('${book.id}')"
+              class="group wood-panel rounded-2xl border-2 border-wood-700 hover:border-brass-500/60 shadow-lg transition-all overflow-hidden flex flex-col cursor-pointer">
+              
+              <div class="aspect-[3/4] bg-wood-950 overflow-hidden relative border-b border-wood-700 flex items-center justify-center">
+                ${hasCustomCover ? `
+                  <img src="${book.coverUrl}" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.style.display='none'">
+                ` : `
+                  <div class="w-full h-full p-3 flex flex-col justify-between text-right" style="background:${theme.bg}; border: 1px solid ${theme.border}; color:${theme.text}">
+                    <span class="text-[10px] opacity-80 font-serif truncate">${book.author}</span>
+                    <span class="text-xs sm:text-sm font-bold font-serif line-clamp-3 leading-snug">${book.title}</span>
+                    <div class="flex items-center justify-between text-[9px] opacity-70">
+                      <span>دليل درايف</span>
+                      <i data-lucide="book" class="w-3 h-3"></i>
+                    </div>
+                  </div>
+                `}
+
+                ${book.isFeatured ? `
+                  <span class="absolute top-2 right-2 brass-plate text-[9px] font-bold px-1.5 py-0.5 rounded shadow">مميز</span>
+                ` : ''}
+              </div>
+
+              <div class="p-3 flex-1 flex flex-col justify-between space-y-1.5">
+                <div>
+                  <div class="text-[10px] text-brass-400 font-semibold truncate flex items-center gap-1 mb-0.5 font-serif">
+                    <i data-lucide="folder" class="w-3 h-3 shrink-0"></i>
+                    <span class="truncate">${pathStr}</span>
+                  </div>
+                  <h3 class="text-xs sm:text-sm font-bold text-parchment-100 group-hover:text-brass-300 line-clamp-2 font-serif leading-tight">
+                    ${book.title}
+                  </h3>
+                  <p class="text-[11px] text-parchment-400 mt-0.5 truncate">${book.author}</p>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        lucide.createIcons();
+      }
+
+      showBookDetails(bookId) {
+        const book = this.state.books.find(b => b.id === bookId);
+        if (!book) return;
+        this.currentBookDetail = book;
+
+        document.getElementById('detail-title').innerText = book.title;
+        document.getElementById('detail-author').innerText = book.author;
+        document.getElementById('detail-desc').innerText = book.description || 'لا توجد نبذة وصفية إضافية لهذا الكتاب.';
+        
+        const pathStr = this.getCategoryPathString(book.categoryId);
+        document.getElementById('detail-drive-path').innerText = `${pathStr} ❯ ${book.title}`;
+
+        const coverBox = document.getElementById('detail-cover-box');
+        const theme = COVER_THEMES[0];
+        if (book.is_cover && book.coverUrl) {
+          coverBox.innerHTML = `<img src="${book.coverUrl}" class="w-full h-full object-cover rounded">`;
+          coverBox.style.background = 'transparent';
+        } else {
+          coverBox.style.background = theme.bg;
+          coverBox.style.border = `2px solid ${theme.border}`;
+          coverBox.innerHTML = `
+            <span class="text-[10px] text-brass-300 font-serif">${book.author}</span>
+            <span class="text-xs font-bold font-serif text-parchment-100 line-clamp-3">${book.title}</span>
+            <span class="text-[9px] text-parchment-400">Google Drive Path</span>
+          `;
+        }
+
+        this.showModal('modal-book-details');
+      }
+
+      renderAdminBooksTable(search = '') {
+        const tbody = document.getElementById('admin-books-tbody');
+        document.getElementById('admin-total-books-badge').innerText = this.state.books.length;
+
+        let filtered = this.state.books;
+        if (search.trim()) {
+          const q = search.trim().toLowerCase();
+          filtered = filtered.filter(b => b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q));
+        }
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-parchment-400 font-serif">لا توجد كتب مسجلة.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(b => {
+          const path = this.getCategoryPathString(b.categoryId);
+          return `
+            <tr class="hover:bg-wood-900/60 transition-colors">
+              <td class="p-2.5 text-center">
+                <button onclick="app.toggleFeaturedBook('${b.id}')" class="p-1 hover:bg-wood-800 rounded">
+                  <i data-lucide="star" class="w-4 h-4 ${b.isFeatured ? 'fill-brass-400 text-brass-400' : 'text-wood-600'}"></i>
+                </button>
+              </td>
+              <td class="p-2.5">
+                <span class="font-bold text-parchment-100 block font-serif">${b.title}</span>
+              </td>
+              <td class="p-2.5 text-parchment-300">${b.author}</td>
+              <td class="p-2.5 font-mono text-brass-400 text-[11px]">${path}</td>
+              <td class="p-2.5">
+                <div class="flex items-center justify-center gap-1">
+                  <button onclick="app.openEditBookModal('${b.id}')" class="p-1.5 text-parchment-300 hover:text-brass-400 hover:bg-wood-800 rounded-lg"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                  <button onclick="app.deleteBook('${b.id}')" class="p-1.5 text-parchment-400 hover:text-rose-400 hover:bg-rose-950/60 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        lucide.createIcons();
+      }
+
+      toggleFeaturedBook(bookId) {
+        const book = this.state.books.find(b => b.id === bookId);
+        if (book) {
+          book.isFeatured = !book.isFeatured;
+          this.saveState();
+          this.renderAdminBooksTable(document.getElementById('admin-book-search').value);
+          this.renderUserMarquee();
+          this.renderBooks();
+          this.toast(book.isFeatured ? "تم التثبيت في المختارات" : "تمت إزالة التثبيت");
+        }
+      }
+
+      openEditBookModal(bookId = null) {
+        this.populateCategoryDropdowns();
+        if (bookId) {
+          const book = this.state.books.find(b => b.id === bookId);
+          document.getElementById('book-modal-title').innerText = "تعديل بيانات الكتاب";
+          document.getElementById('edit-book-id').value = book.id;
+          document.getElementById('book-form-title').value = book.title;
+          document.getElementById('book-form-author').value = book.author;
+          document.getElementById('book-form-desc').value = book.description || '';
+          document.getElementById('book-form-category').value = book.categoryId || '';
+          document.getElementById('book-form-featured').checked = !!book.isFeatured;
+          document.getElementById('book-form-iscover').checked = !!book.is_cover;
+          document.getElementById('book-form-coverurl').value = book.coverUrl || '';
+          this.toggleCustomCoverInput(!!book.is_cover);
+        } else {
+          document.getElementById('book-modal-title').innerText = "إضافة كتاب جديد";
+          document.getElementById('edit-book-id').value = '';
+          document.getElementById('book-form-title').value = '';
+          document.getElementById('book-form-author').value = '';
+          document.getElementById('book-form-desc').value = '';
+          document.getElementById('book-form-category').value = this.activeCategoryFilter || (this.state.categories[0]?.id || '');
+          document.getElementById('book-form-featured').checked = false;
+          document.getElementById('book-form-iscover').checked = false;
+          document.getElementById('book-form-coverurl').value = '';
+          this.toggleCustomCoverInput(false);
+        }
+        this.showModal('modal-book');
+      }
+
+      toggleCustomCoverInput(show) {
+        const box = document.getElementById('custom-cover-box');
+        if (show) box.classList.remove('hidden');
+        else box.classList.add('hidden');
+      }
+
+      saveBook() {
+        const id = document.getElementById('edit-book-id').value;
+        const title = document.getElementById('book-form-title').value.trim();
+        const author = document.getElementById('book-form-author').value.trim();
+        const description = document.getElementById('book-form-desc').value.trim();
+        const categoryId = document.getElementById('book-form-category').value || null;
+        const isFeatured = document.getElementById('book-form-featured').checked;
+        const is_cover = document.getElementById('book-form-iscover').checked;
+        const coverUrl = is_cover ? document.getElementById('book-form-coverurl').value.trim() : '';
+
+        if (!title || !author) {
+          this.toast("يرجى إدخال عنوان الكتاب واسم المؤلف", true);
+          return;
+        }
+
+        if (id) {
+          const index = this.state.books.findIndex(b => b.id === id);
+          if (index !== -1) {
+            this.state.books[index] = {
+              ...this.state.books[index],
+              title, author, description, categoryId, isFeatured, is_cover, coverUrl
+            };
+            this.toast("تم تحديث الكتاب بنجاح");
+          }
+        } else {
+          this.state.books.unshift({
+            id: 'book-' + Date.now(),
+            title, author, description, categoryId, isFeatured, is_cover, coverUrl, createdAt: Date.now()
+          });
+          this.toast("تمت إضافة الكتاب بنجاح");
+        }
+
+        this.saveState();
+        this.hideModal('modal-book');
+        this.renderAdminBooksTable();
+        this.renderBooks();
+        this.renderUserMarquee();
+        this.renderCategorySidebar();
+      }
+
+      deleteBook(bookId) {
+        this.state.books = this.state.books.filter(b => b.id !== bookId);
+        this.saveState();
+        this.renderAdminBooksTable();
+        this.renderBooks();
+        this.renderUserMarquee();
+        this.renderCategorySidebar();
+        this.toast("تم حذف الكتاب");
+      }
+
+      renderAdminCategoryTree() {
+        const container = document.getElementById('admin-category-tree');
+        if (this.state.categories.length === 0) {
+          container.innerHTML = '<p class="text-xs text-parchment-400 p-2">لا توجد مجلدات مسجلة.</p>';
+          this.populateCategoryDropdowns();
+          return;
+        }
+
+        const buildAdminNodes = (parentId, depth = 0) => {
+          const cats = this.state.categories.filter(c => c.parentId === parentId);
+          if (cats.length === 0) return '';
+
+          return cats.map(cat => {
+            const count = this.state.books.filter(b => b.categoryId === cat.id).length;
+            return `
+              <div class="border border-wood-700 bg-wood-950/80 rounded-xl p-2.5 my-1.5 flex items-center justify-between shadow" style="margin-right: ${depth * 15}px">
+                <div class="flex items-center gap-2 truncate">
+                  <i data-lucide="folder" class="w-4 h-4 text-brass-400 shrink-0"></i>
+                  <span class="font-bold text-xs text-parchment-100 font-serif truncate">${cat.name}</span>
+                  <span class="text-[10px] text-brass-400 bg-wood-900 border border-wood-700 px-2 py-0.5 rounded-full">${count} كتاب</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <button onclick="app.deleteCategory('${cat.id}')" class="p-1 text-parchment-400 hover:text-rose-400 rounded">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+              ${buildAdminNodes(cat.id, depth + 1)}
+            `;
+          }).join('');
+        };
+
+        container.innerHTML = buildAdminNodes(null);
+        this.populateCategoryDropdowns();
+        lucide.createIcons();
+      }
+
+      populateCategoryDropdowns() {
+        const selects = [
+          document.getElementById('cat-parent-select'),
+          document.getElementById('quick-cat-parent'),
+          document.getElementById('book-form-category')
+        ];
+
+        const options = this.state.categories.map(c => ({
+          id: c.id,
+          label: this.getCategoryPathString(c.id)
+        })).sort((a, b) => a.label.localeCompare(b.label, 'ar'));
+
+        selects.forEach(sel => {
+          if (!sel) return;
+          const isBookSel = sel.id === 'book-form-category';
+          const defaultOpt = isBookSel ? '<option value="">-- اختر المجلد --</option>' : '<option value="">-- مجلد رئيسي --</option>';
+          sel.innerHTML = defaultOpt + options.map(o => `<option value="${o.id}">${o.label}</option>`).join('');
+        });
+      }
+
+      saveCategory() {
+        const name = document.getElementById('cat-name-input').value.trim();
+        const parentId = document.getElementById('cat-parent-select').value || null;
+
+        if (!name) {
+          this.toast("يرجى إدخال اسم المجلد", true);
+          return;
+        }
+
+        this.state.categories.push({ id: 'cat-' + Date.now(), name, parentId });
+        this.saveState();
+        this.hideModal('modal-category');
+        document.getElementById('cat-name-input').value = '';
+        this.renderAdminCategoryTree();
+        this.renderCategorySidebar();
+        this.toast(`تم إنشاء المجلد: ${name}`);
+      }
+
+      quickAddCategory() {
+        const nameInput = document.getElementById('quick-cat-name');
+        const parentSelect = document.getElementById('quick-cat-parent');
+        const name = nameInput.value.trim();
+        const parentId = parentSelect.value || null;
+
+        if (!name) {
+          this.toast("يرجى إدخال اسم المجلد", true);
+          return;
+        }
+
+        this.state.categories.push({ id: 'cat-' + Date.now(), name, parentId });
+        this.saveState();
+        nameInput.value = '';
+        this.renderAdminCategoryTree();
+        this.renderCategorySidebar();
+        this.toast(`تم إنشاء المجلد: ${name}`);
+      }
+
+      deleteCategory(catId) {
+        const subIds = this.getAllSubCategoryIds(catId);
+        this.state.categories = this.state.categories.filter(c => !subIds.includes(c.id));
+        this.state.books = this.state.books.map(b => subIds.includes(b.categoryId) ? { ...b, categoryId: null } : b);
+        this.saveState();
+        this.renderAdminCategoryTree();
+        this.renderCategorySidebar();
+        this.renderBooks();
+        this.toast("تم حذف المجلد");
+      }
+
+      generateDriveScript() {
+        const folderId = document.getElementById('gdrive-folder-id').value.trim() || 'ضع_معرف_مجلدك_هنا';
+        const script = `function exportDriveToLibrary() {
+  var rootFolderId = "${folderId}";
+  var root = DriveApp.getFolderById(rootFolderId);
+  var paths = [];
+  function traverse(folder, currentPath) {
+    var files = folder.getFiles();
+    while (files.hasNext()) {
+      var file = files.next();
+      paths.push(currentPath + "/" + file.getName());
+    }
+    var subFolders = folder.getFolders();
+    while (subFolders.hasNext()) {
+      var sub = subFolders.next();
+      traverse(sub, currentPath + "/" + sub.getName());
+    }
+  }
+  traverse(root, root.getName());
+  Logger.log(paths.join("\\n"));
+}`;
+        document.getElementById('gdrive-script-output').value = script;
+        this.toast("تم توليد كود Apps Script");
+      }
+
+      handleBatchFolderUpload(fileList) {
+        if (!fileList || fileList.length === 0) return;
+        const paths = [];
+        for (let i = 0; i < fileList.length; i++) {
+          if (fileList[i].webkitRelativePath) paths.push(fileList[i].webkitRelativePath);
+        }
+        this.processBatchPaths(paths);
+      }
+
+      async parseTextPathsBatchSecure() {
+        const enteredPass = document.getElementById('auth-confirm-pass').value.trim();
+        if (!enteredPass) {
+          this.toast("أدخل كلمة المرور لتأكيد الاستيراد", true);
+          return;
+        }
+
+        const hashedEntered = await this.hashString(enteredPass);
+        if (hashedEntered !== this.state.adminPasswordHash) {
+          this.toast("كلمة المرور غير صحيحة!", true);
+          return;
+        }
+
+        const raw = document.getElementById('batch-text-paths').value;
+        const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        if (lines.length === 0) {
+          this.toast("أدخل مسارات صالحة للتحليل", true);
+          return;
+        }
+
+        document.getElementById('auth-confirm-pass').value = '';
+        this.processBatchPaths(lines);
+      }
+
+      processBatchPaths(pathsArray) {
+        let addedBooks = 0;
+        let createdCats = 0;
+
+        pathsArray.forEach(fullPath => {
+          const cleanPath = fullPath.replace(/\\/g, '/').replace(/^\/+|\/+$/g, '');
+          const segments = cleanPath.split('/');
+          if (segments.length === 0) return;
+
+          const fileName = segments[segments.length - 1];
+          const folderSegments = segments.slice(0, segments.length - 1);
+
+          let currentParentId = null;
+          folderSegments.forEach(folderName => {
+            const trimmed = folderName.trim();
+            if (!trimmed) return;
+
+            let existingCat = this.state.categories.find(
+              c => c.name.toLowerCase() === trimmed.toLowerCase() && c.parentId === currentParentId
+            );
+
+            if (!existingCat) {
+              existingCat = {
+                id: 'cat-batch-' + Math.random().toString(36).substring(2, 9),
+                name: trimmed,
+                parentId: currentParentId
+              };
+              this.state.categories.push(existingCat);
+              createdCats++;
+            }
+            currentParentId = existingCat.id;
+          });
+
+          const cleanFileName = fileName.replace(/\.(pdf|epub|mobi|docx|doc)$/i, '').trim();
+
+          if (cleanFileName) {
+            let title = cleanFileName;
+            let author = "مؤلف غير محدد";
+
+            if (cleanFileName.includes(' - ')) {
+              const parts = cleanFileName.split(' - ');
+              title = parts[0].trim();
+              author = parts.slice(1).join(' - ').trim();
+            }
+
+            const exists = this.state.books.some(b => b.title.toLowerCase() === title.toLowerCase() && b.categoryId === currentParentId);
+            if (!exists) {
+              this.state.books.push({
+                id: 'book-' + Math.random().toString(36).substring(2, 9),
+                title, author,
+                description: '',
+                categoryId: currentParentId,
+                isFeatured: false,
+                is_cover: false,
+                coverUrl: '',
+                createdAt: Date.now()
+              });
+              addedBooks++;
+            }
+          }
+        });
+
+        this.saveState();
+        this.renderAdminBooksTable();
+        this.renderAdminCategoryTree();
+        this.renderCategorySidebar();
+        this.renderBooks();
+        this.renderUserMarquee();
+        this.generateAiJsonExport();
+
+        this.toast(`مزامنة درايف نجحت: تم إنشاء ${createdCats} مجلدات واستيراد ${addedBooks} كتاب!`);
+      }
+
+      generateAiJsonExport() {
+        const aiPayload = {
+          library_name: "المكتبة الخشبية التراثية",
+          description: "هيكل المجلدات والكتب الدقيق لاستعلامات Gemini AI",
+          categories: this.state.categories,
+          books: this.state.books.map(b => ({
+            id: b.id,
+            title: b.title,
+            author: b.author,
+            description: b.description || "",
+            exact_google_drive_path: this.getCategoryPathString(b.categoryId) + " ❯ " + b.title
+          }))
+        };
+        const jsonStr = JSON.stringify(aiPayload, null, 2);
+        const textarea = document.getElementById('ai-json-output');
+        if (textarea) textarea.value = jsonStr;
+      }
+
+      downloadAiJson() {
+        const jsonStr = document.getElementById('ai-json-output').value;
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonStr);
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", `gemini_library_hierarchy_${new Date().toISOString().slice(0,10)}.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+        this.toast("تم تنزيل ملف JSON بنجاح");
+      }
+
+      showModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+          modal.classList.remove('hidden');
+          document.body.classList.add('overflow-hidden');
+        }
+      }
+
+      hideModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+          modal.classList.add('hidden');
+          document.body.classList.remove('overflow-hidden');
+        }
+      }
+    }
+
+    let app;
+    window.addEventListener('DOMContentLoaded', () => {
+      app = new LibraryApp();
+      app.init();
+    });
+  </script>
+</body>
+</html>
